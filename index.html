@@ -10,18 +10,17 @@
     padding: 0;
     font-family: 'Comic Sans MS', cursive;
     background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
-    color: white;
-    overflow-x: hidden;
+    color: black;
     text-align: center;
+    overflow-x: hidden;
   }
 
   .container {
-    margin-top: 100px;
+    margin-top: 80px;
     width: 90%;
     max-width: 500px;
   }
@@ -34,7 +33,7 @@
     background: #ff4f81;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.3s, background 0.3s;
     margin-top: 20px;
   }
 
@@ -43,9 +42,7 @@
     background: #ff1f5a;
   }
 
-  .hidden {
-    display: none;
-  }
+  .hidden { display: none; }
 
   #textArea p {
     margin: 10px 0;
@@ -57,7 +54,23 @@
     max-width: 100%;
     margin-top: 20px;
     border-radius: 20px;
-    box-shadow: 0px 0px 20px #fff;
+    box-shadow: 0px 0px 20px #000;
+  }
+
+  /* Confetti emojis */
+  .confetti {
+    position: fixed;
+    top: -50px;
+    font-size: 24px;
+    animation: fall linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
   }
 </style>
 </head>
@@ -70,7 +83,6 @@
   <div id="textArea"></div>
 
   <button id="nextBtn" class="hidden" onclick="showYourMessage()">Click to See My Message 🥰</button>
-
   <button id="finalBtn" class="hidden" onclick="showImage()">See the Surprise 🎁</button>
 
   <div id="imageDiv" class="hidden">
@@ -111,9 +123,28 @@ I hope this little surprise makes you smile! 🥰
 let i = 0;
 let j = 0;
 
+// Function to create falling confetti
+function createConfetti() {
+  const emojis = ["🎉","💖","✨","🌸","🥰","💫"];
+  let conf = document.createElement("div");
+  conf.classList.add("confetti");
+  conf.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  conf.style.left = Math.random()*100 + "vw";
+  conf.style.animationDuration = (Math.random()*3+2) + "s";
+  document.body.appendChild(conf);
+  setTimeout(()=> conf.remove(), 4000);
+}
+
 function start() {
   document.querySelector("button").style.display = "none";
-  document.getElementById("bgMusic").play();
+
+  // Play music after user click (works on mobile)
+  let audio = document.getElementById("bgMusic");
+  audio.play().catch(()=>console.log("User click required"));
+
+  // Start confetti
+  setInterval(createConfetti, 300);
+
   typeFunny();
 }
 
