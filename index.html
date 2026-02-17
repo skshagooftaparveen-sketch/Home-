@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Someone Special 💖</title>
+<title>Special Surprise 💖</title>
 <style>
   body {
     margin: 0;
@@ -19,10 +19,15 @@
     overflow-x: hidden;
   }
 
-  .container {
-    margin-top: 80px;
+  .screen {
+    display: none;
     width: 90%;
     max-width: 500px;
+    margin-top: 80px;
+  }
+
+  .screen.active {
+    display: block;
   }
 
   button {
@@ -42,12 +47,34 @@
     background: #ff1f5a;
   }
 
-  .hidden { display: none; }
-
-  #textArea p {
+  #msgArea p {
     margin: 10px 0;
     line-height: 1.5em;
     font-size: 16px;
+    position: relative;
+  }
+
+  #confettiContainer {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .confetti {
+    position: absolute;
+    top: -30px;
+    font-size: 24px;
+    animation: fall linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(220px) rotate(360deg);
+      opacity: 0;
+    }
   }
 
   #imageDiv img {
@@ -56,49 +83,48 @@
     border-radius: 20px;
     box-shadow: 0px 0px 20px #000;
   }
-
-  /* Confetti emojis */
-  .confetti {
-    position: fixed;
-    top: -50px;
-    font-size: 24px;
-    animation: fall linear forwards;
-    pointer-events: none;
-  }
-
-  @keyframes fall {
-    to {
-      transform: translateY(110vh) rotate(360deg);
-      opacity: 0;
-    }
-  }
 </style>
 </head>
 <body>
 
-<div class="container">
+<!-- Screen 1: Click me -->
+<div id="screen1" class="screen active">
   <h2>Hey You 😉💖</h2>
-  <button onclick="start()">Click Me If You Dare 😏</button>
+  <button onclick="startScreen2()">Click Me If You Dare 😏</button>
+</div>
 
-  <div id="textArea"></div>
+<!-- Screen 2: Funny scanning message -->
+<div id="screen2" class="screen">
+  <div id="funnyTextArea"></div>
+  <button id="toMsgBtn" style="display:none;" onclick="showMessageScreen()">Next 🥰</button>
+</div>
 
-  <button id="nextBtn" class="hidden" onclick="showYourMessage()">Click to See My Message 🥰</button>
-  <button id="finalBtn" class="hidden" onclick="showImage()">See the Surprise 🎁</button>
+<!-- Screen 3: Your personal message with confetti -->
+<div id="screen3" class="screen">
+  <div id="msgArea"></div>
+  <div id="confettiContainer"></div>
+  <button id="toImageBtn" style="display:none;" onclick="showImageScreen()">See Surprise 🎁</button>
+</div>
 
-  <div id="imageDiv" class="hidden">
+<!-- Screen 4: Image reveal -->
+<div id="screen4" class="screen">
+  <div id="imageDiv">
     <img src="photo.jpg" alt="Surprise Image">
   </div>
 </div>
 
+<!-- Music -->
 <audio id="bgMusic" loop>
   <source src="music.mp4" type="audio/mp4">
 </audio>
 
 <script>
 let funnyText = "Scanning Cuteness Level... 20% 🐣... 60% 🐥... 100% 😍 ALERT! Maximum Cuteness Detected!";
-let yourText = `<p>Assalamualaikum,</p>
+let yourText = `<p>Assalamualaikum💌</p>
 <p>
-Ye message thoda ajeeb lagega, but kuch to kehna, par words hi nai aare.
+
+
+Halo ji , Ye message thoda ajeeb lagega, but kuch to kehna hai, par words hi nai aare.
 I know hurt kia hai and forgetting everything what has happened is not easy and aapki mistake wasn't there.
 Sab gadhbud hogaya. So really sorry for everything ❤️‍🩹.
 Ye baat WhatsApp karsakti thi but felt like writing this.
@@ -123,59 +149,67 @@ I hope this little surprise makes you smile! 🥰
 let i = 0;
 let j = 0;
 
-// Function to create falling confetti
-function createConfetti() {
-  const emojis = ["🎉","💖","✨","🌸","🥰","💫"];
-  let conf = document.createElement("div");
-  conf.classList.add("confetti");
-  conf.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-  conf.style.left = Math.random()*100 + "vw";
-  conf.style.animationDuration = (Math.random()*3+2) + "s";
-  document.body.appendChild(conf);
-  setTimeout(()=> conf.remove(), 4000);
-}
+// Screen 1 -> Screen 2
+function startScreen2() {
+  document.getElementById("screen1").classList.remove("active");
+  document.getElementById("screen2").classList.add("active");
 
-function start() {
-  document.querySelector("button").style.display = "none";
-
-  // Play music after user click (works on mobile)
+  // Play music after first click
   let audio = document.getElementById("bgMusic");
-  audio.play().catch(()=>console.log("User click required"));
-
-  // Start confetti
-  setInterval(createConfetti, 300);
+  audio.play().catch(()=>console.log("User interaction required"));
 
   typeFunny();
 }
 
+// Type the funny scanning text
 function typeFunny() {
   if (i < funnyText.length) {
-    document.getElementById("textArea").innerHTML += funnyText.charAt(i);
+    document.getElementById("funnyTextArea").innerHTML += funnyText.charAt(i);
     i++;
     setTimeout(typeFunny, 50);
   } else {
-    document.getElementById("nextBtn").classList.remove("hidden");
+    document.getElementById("toMsgBtn").style.display = "inline-block";
   }
 }
 
-function showYourMessage() {
-  document.getElementById("textArea").innerHTML = "";
-  document.getElementById("nextBtn").classList.add("hidden");
+// Screen 2 -> Screen 3
+function showMessageScreen() {
+  document.getElementById("screen2").classList.remove("active");
+  document.getElementById("screen3").classList.add("active");
   typePersonal();
+  startConfetti();
 }
 
+// Type your personal message
 function typePersonal() {
   if (j < yourText.length) {
-    document.getElementById("textArea").innerHTML += yourText.charAt(j);
+    document.getElementById("msgArea").innerHTML += yourText.charAt(j);
     j++;
     setTimeout(typePersonal, 10);
   } else {
-    document.getElementById("finalBtn").classList.remove("hidden");
+    document.getElementById("toImageBtn").style.display = "inline-block";
   }
 }
 
-function showImage() {
-  document.getElementById("imageDiv").classList.remove("hidden");
+// Confetti only in message container
+function startConfetti() {
+  let container = document.getElementById("confettiContainer");
+  setInterval(()=>{
+    const emojis = ["🎉","💖","✨","🌸","🥰","💫"];
+    let conf = document.createElement("div");
+    conf.classList.add("confetti");
+    conf.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    conf.style.left = Math.random()*100 + "%";
+    conf.style.animationDuration = (Math.random()*3+2) + "s";
+    container.appendChild(conf);
+    setTimeout(()=> conf.remove(), 4000);
+  }, 300);
+}
+
+// Screen 3 -> Screen 4
+function showImageScreen() {
+  document.getElementById("screen3").classList.remove("active");
+  document.getElementById("screen4").classList.add("active");
 }
 </script>
 
