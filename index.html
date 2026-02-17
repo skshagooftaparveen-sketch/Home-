@@ -48,8 +48,8 @@
   }
 
   #msgArea p {
-    margin: 10px 0;
-    line-height: 1.5em;
+    margin: 15px 0; /* gap between paragraphs */
+    line-height: 1.7em;
     font-size: 16px;
     position: relative;
   }
@@ -120,31 +120,28 @@
 
 <script>
 let funnyText = "Scanning Cuteness Level... 20% 🐣... 60% 🐥... 100% 😍 ALERT! Maximum Cuteness Detected!";
-let yourText = `<p>Assalamualaikum💌</p>
-<p>
 
-
-Halo ji , Ye message thoda ajeeb lagega, but kuch to kehna hai, par words hi nai aare.
+// Your fully formatted message
+let yourText = `<p>Assalamualaikum,</p>
+<p>Halo ji, Ye message thoda ajeeb lagega, but kuch to kehna hai , par words hi nai aare.
 I know hurt kia hai and forgetting everything what has happened is not easy and aapki mistake wasn't there.
 Sab gadhbud hogaya. So really sorry for everything ❤️‍🩹.
-Ye baat WhatsApp karsakti thi but felt like writing this.
-</p>
-<p>
-I just wanted to tell you how much you mean to me.
-After few days Ramzan bhi ajata hai, duaa me yaad rakhna 🫂.
-Jab hum mile to ye sab baaton ko bhool ke waise rahe jaise hamesha the 🥺.
-Take care and always remember your love and care always felt like home 💖.
-</p>
-<p>
-And ek quote to my shayar who used to write shayaris:<br>
-"Dosti rooh me utra hua risha hai sahab. Mulaqaatein kam honey sey Dosti khatam nai hoti."<br>
-Ye hasney ke liye likha 🤪🤪
-</p>
-<p>
-You’re not only my cousin, Apun ki best friend hai tu and big supporter of my life.
+Ye baat WhatsApp karsakti thi but felt like doing  this way.</p>
+
+<p>I just wanted to tell you how much you mean to me.
+After few days Ramzan bhi ajata hai, duaa me yaad rakhna 🫂.</p>
+
+<p>Jab hum mile to ye sab baaton ko bhool ke waisey rahe jaisa humesha thhey🥺.</p>
+
+<p>Take care and always remember your love and care always felt like home 💖.</p>
+
+<p>And ek quote to my shayar who used to write shayaris:
+"Dosti rooh me utra hua risha hai sahab. Mulaqaatein kam honey sey Dosti khatam nai hoti.
+Ye hasney ke liye likha 🤪🤪</p>
+
+<p>You’re not only my cousin, Apun ki best friend hai tu and big supporter of my life.
 Apna khayal rakhna.
-I hope this little surprise makes you smile! 🥰
-</p>`;
+I hope this little surprise makes you smile! 🥰</p>`;
 
 let i = 0;
 let j = 0;
@@ -152,6 +149,7 @@ let j = 0;
 // Screen 1 -> Screen 2
 function startScreen2() {
   document.getElementById("screen1").classList.remove("active");
+
   document.getElementById("screen2").classList.add("active");
 
   // Play music after first click
