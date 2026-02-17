@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Someone Special 💖</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    color: white;
+    overflow-x: hidden;
+    text-align: center;
+  }
+
+  .container {
+    margin-top: 100px;
+    width: 90%;
+    max-width: 500px;
+  }
+
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4f81;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    background: #ff1f5a;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #textArea p {
+    margin: 10px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+
+  #imageDiv img {
+    max-width: 100%;
+    margin-top: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Hey You 😉💖</h2>
+  <button onclick="start()">Click Me If You Dare 😏</button>
+
+  <div id="textArea"></div>
+
+  <button id="nextBtn" class="hidden" onclick="showYourMessage()">Click to See My Message 🥰</button>
+
+  <button id="finalBtn" class="hidden" onclick="showImage()">See the Surprise 🎁</button>
+
+  <div id="imageDiv" class="hidden">
+    <img src="photo.jpg" alt="Surprise Image">
+  </div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp4" type="audio/mp4">
+</audio>
+
+<script>
+let funnyText = "Scanning Cuteness Level... 20% 🐣... 60% 🐥... 100% 😍 ALERT! Maximum Cuteness Detected!";
+let yourText = `<p>Assalamualaikum,</p>
+<p>
+Ye message thoda ajeeb lagega, but kuch to kehna, par words hi nai aare.
+I know hurt kia hai and forgetting everything what has happened is not easy and aapki mistake wasn't there.
+Sab gadhbud hogaya. So really sorry for everything ❤️‍🩹.
+Ye baat WhatsApp karsakti thi but felt like writing this.
+</p>
+<p>
+I just wanted to tell you how much you mean to me.
+After few days Ramzan bhi ajata hai, duaa me yaad rakhna 🫂.
+Jab hum mile to ye sab baaton ko bhool ke waise rahe jaise hamesha the 🥺.
+Take care and always remember your love and care always felt like home 💖.
+</p>
+<p>
+And ek quote to my shayar who used to write shayaris:<br>
+"Dosti rooh me utra hua risha hai sahab. Mulaqaatein kam honey sey Dosti khatam nai hoti."<br>
+Ye hasney ke liye likha 🤪🤪
+</p>
+<p>
+You’re not only my cousin, Apun ki best friend hai tu and big supporter of my life.
+Apna khayal rakhna.
+I hope this little surprise makes you smile! 🥰
+</p>`;
+
+let i = 0;
+let j = 0;
+
+function start() {
+  document.querySelector("button").style.display = "none";
+  document.getElementById("bgMusic").play();
+  typeFunny();
+}
+
+function typeFunny() {
+  if (i < funnyText.length) {
+    document.getElementById("textArea").innerHTML += funnyText.charAt(i);
+    i++;
+    setTimeout(typeFunny, 50);
+  } else {
+    document.getElementById("nextBtn").classList.remove("hidden");
+  }
+}
+
+function showYourMessage() {
+  document.getElementById("textArea").innerHTML = "";
+  document.getElementById("nextBtn").classList.add("hidden");
+  typePersonal();
+}
+
+function typePersonal() {
+  if (j < yourText.length) {
+    document.getElementById("textArea").innerHTML += yourText.charAt(j);
+    j++;
+    setTimeout(typePersonal, 10);
+  } else {
+    document.getElementById("finalBtn").classList.remove("hidden");
+  }
+}
+
+function showImage() {
+  document.getElementById("imageDiv").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
